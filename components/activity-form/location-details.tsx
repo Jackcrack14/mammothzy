@@ -5,7 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { locationSchema } from "./schemas";
 import { ActivityFormData } from "@/hooks/use-activity-form";
 
@@ -15,15 +22,21 @@ interface LocationDetailsProps {
   initialData: ActivityFormData;
 }
 
-export function LocationDetails({ onBack, onSubmit, initialData }: LocationDetailsProps) {
+export function LocationDetails({
+  onBack,
+  onSubmit,
+  initialData,
+}: LocationDetailsProps) {
   const form = useForm<z.infer<typeof locationSchema>>({
     resolver: zodResolver(locationSchema),
     defaultValues: {
-      address: initialData.address || "",
+      address1: initialData.address1 || "",
+      address2: initialData.address2 || "",
       city: initialData.city || "",
       state: initialData.state || "",
-      country: initialData.country || "",
-      pincode: initialData.pincode || "",
+      contactName: initialData.contactName || "",
+      contactNumber: initialData.contactNumber || undefined,
+      zipcode: initialData.zipcode || "",
     },
   });
 
@@ -36,10 +49,26 @@ export function LocationDetails({ onBack, onSubmit, initialData }: LocationDetai
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="address"
+          name="address1"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>Address Line 1</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Other information, e.g, building name"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="address2"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address Line 2</FormLabel>
               <FormControl>
                 <Input placeholder="Enter complete address" {...field} />
               </FormControl>
@@ -47,7 +76,19 @@ export function LocationDetails({ onBack, onSubmit, initialData }: LocationDetai
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="zipcode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ZIP Code</FormLabel>
+              <FormControl>
+                <Input placeholder="Eg:123456" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="grid grid-cols-2 gap-6">
           <FormField
             control={form.control}
@@ -81,12 +122,11 @@ export function LocationDetails({ onBack, onSubmit, initialData }: LocationDetai
         <div className="grid grid-cols-2 gap-6">
           <FormField
             control={form.control}
-            name="country"
+            name="contactNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Country</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter country" {...field} />
+                  <Input placeholder="Contact Number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,12 +135,11 @@ export function LocationDetails({ onBack, onSubmit, initialData }: LocationDetai
 
           <FormField
             control={form.control}
-            name="pincode"
+            name="contactName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Pincode</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter pincode" {...field} />
+                  <Input placeholder="Contact Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,7 +151,7 @@ export function LocationDetails({ onBack, onSubmit, initialData }: LocationDetai
           <Button type="button" variant="outline" onClick={onBack}>
             Previous Step
           </Button>
-          <Button type="submit">Create Activity</Button>
+          <Button type="submit">Submit</Button>
         </div>
       </form>
     </Form>

@@ -10,11 +10,13 @@ export interface ActivityFormData {
   maxMembers?: number;
   type?: string;
   location?: string;
-  address?: string;
+  address1?: string;
+  address2?: string;
   city?: string;
   state?: string;
-  country?: string;
-  pincode?: string;
+  contactName?: string;
+  contactNumber?: number;
+  zipcode?: string;
 }
 
 export function useActivityForm() {

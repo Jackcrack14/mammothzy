@@ -11,9 +11,11 @@ export const activitySchema = z.object({
 });
 
 export const locationSchema = z.object({
-  address: z.string().min(1, "Address is required"),
+  address1: z.string().min(1, "Address is required"),
+  address2: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State is required"),
-  country: z.string().min(1, "Country is required"),
-  pincode: z.string().min(1, "Pincode is required"),
+  contactName: z.string().min(1, "Contact Name is required"),
+  contactNumber: z.number().min(1, "Contact Number is required"),
+  zipcode: z.string().min(1, "Zipcode is required"),
 });
